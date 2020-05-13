@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import {
   SafeAreaView,
@@ -17,29 +17,44 @@ import {
   Text,
   Button,
   Alert,
+  TextInput,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-declare const global: {HermesInternal: null | {}};
-
 axios.defaults.baseURL = 'http://localhost:3000';
+
 const App = () => {
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
   return (
     <>
       <SafeAreaView>
         <Text>Hello world!</Text>
+        <TextInput
+          onChangeText={text => setUsername(text)}
+          value={username}
+          placeholder="username"
+        />
+        <TextInput
+          onChangeText={text => setPassword(text)}
+          value={password}
+          placeholder="password"
+        />
         <Button
           onPress={() => {
-            axios.get('/').then(res => Alert.alert(res.data.msg));
+            axios
+              .post('/login', {
+                data: {
+                  username,
+                  password,
+                },
+              })
+              .then(res => {
+                console.log(res);
+                Alert.alert(${res.data.success});
+              });
           }}
-          title="GET LOCALHOST:3000"
+          title="LOGIN"
         />
       </SafeAreaView>
     </>
