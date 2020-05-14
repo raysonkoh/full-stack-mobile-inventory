@@ -8,56 +8,23 @@
  * @format
  */
 
-import React, {useState} from 'react';
-import axios from 'axios';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  Alert,
-  TextInput,
-} from 'react-native';
+import 'react-native-gesture-handler';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import Loginpage from './pages/Loginpage';
+import Registerpage from './pages/Registerpage';
 
-axios.defaults.baseURL = 'http://localhost:3000';
+const Stack = createStackNavigator();
 
 const App = () => {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
   return (
-    <>
-      <SafeAreaView>
-        <Text>Hello world!</Text>
-        <TextInput
-          onChangeText={text => setUsername(text)}
-          value={username}
-          placeholder="username"
-        />
-        <TextInput
-          onChangeText={text => setPassword(text)}
-          value={password}
-          placeholder="password"
-        />
-        <Button
-          onPress={() => {
-            axios
-              .post('/login', {
-                data: {
-                  username,
-                  password,
-                },
-              })
-              .then(res => {
-                console.log(res);
-                Alert.alert(${res.data.success});
-              });
-          }}
-          title="LOGIN"
-        />
-      </SafeAreaView>
-    </>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Loginpage} />
+        <Stack.Screen name="Register" component={Registerpage} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
