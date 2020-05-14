@@ -24,14 +24,14 @@ const Homepage = ({navigation}) => {
           <Input
             value={username}
             placeholder="Username"
-            onChangeText={text => setUsername(text)}
+            onChangeText={(text) => setUsername(text)}
           />
         </Item>
         <Item>
           <Input
             value={password}
             placeholder="Password"
-            onChangeText={text => setPassword(text)}
+            onChangeText={(text) => setPassword(text)}
           />
         </Item>
       </Form>
@@ -45,8 +45,8 @@ const Homepage = ({navigation}) => {
                 username,
                 password,
               })
-              .then(res => {
-                if (res.err) {
+              .then((res) => {
+                if (res.data.err) {
                   Alert.alert(res.data.err);
                 } else {
                   navigation.push('Inventory');

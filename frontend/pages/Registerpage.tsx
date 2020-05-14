@@ -1,6 +1,15 @@
 import React, {useState} from 'react';
 import {Alert} from 'react-native';
-import {Container, Form, Item, Input, Content, Text, Button} from 'native-base';
+import {
+  Container,
+  Form,
+  Item,
+  Input,
+  Content,
+  Text,
+  Button,
+  Toast,
+} from 'native-base';
 import customAxios from '../helpers/customAxios';
 
 const Registerpage = ({navigation}) => {
@@ -14,14 +23,14 @@ const Registerpage = ({navigation}) => {
           <Item>
             <Input
               value={username}
-              onChangeText={text => setUsername(text)}
+              onChangeText={(text) => setUsername(text)}
               placeholder="Username"
             />
           </Item>
           <Item>
             <Input
               value={password}
-              onChangeText={text => setPassword(text)}
+              onChangeText={(text) => setPassword(text)}
               placeholder="Password"
             />
           </Item>
@@ -34,10 +43,14 @@ const Registerpage = ({navigation}) => {
                 username,
                 password,
               })
-              .then(res => {
+              .then((res) => {
                 if (res.err) {
                 } else {
-                  navigation.navigate('Login');
+                  Toast.show({
+                    text: 'Registration success! Redirecting to login...',
+                    textStyle: {color: 'green'},
+                    buttonText: 'Okay!',
+                  }) > navigation.navigate('Login');
                 }
               });
           }}>

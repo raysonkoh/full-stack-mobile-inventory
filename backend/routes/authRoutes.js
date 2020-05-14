@@ -6,13 +6,13 @@ authRoutes.post("/register", (req, res) => {
   const { username, password } = req.body;
   const user = new User({
     username,
-    password
+    password,
   });
 
-  user.save().then(usr => {
+  user.save().then((usr) => {
     res.json({
       msg: "Success!",
-      usr
+      usr,
     });
   });
 });
@@ -20,15 +20,21 @@ authRoutes.post("/register", (req, res) => {
 authRoutes.post("/login", (req, res) => {
   const { username, password } = req.body;
   User.findOne({ username })
-    .then(user => {
-      res.json({
-        msg: user.password === password ? "Login success" : "Login error"
-      });
+    .then((user) => {
+      if (user.password === password) {
+        res.json({
+          msg: "Login success",
+        });
+      } else {
+        res.json({
+          err: "Login error",
+        });
+      }
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.json({
-        msg: "Login error"
+        err: "Login error",
       });
     });
 });
