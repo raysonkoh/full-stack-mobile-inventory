@@ -45,7 +45,13 @@ const Homepage = ({navigation}) => {
                 username,
                 password,
               })
-              .then(res => Alert.alert(res.data.msg));
+              .then(res => {
+                if (res.err) {
+                  Alert.alert(res.data.err);
+                } else {
+                  navigation.push('Inventory');
+                }
+              });
           }}>
           <Text>Sign In</Text>
         </Button>

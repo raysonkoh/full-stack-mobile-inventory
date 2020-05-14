@@ -14,6 +14,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Loginpage from './pages/Loginpage';
 import Registerpage from './pages/Registerpage';
+import Inventorypage from './pages/Inventorypage';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Loginpage} />
         <Stack.Screen name="Register" component={Registerpage} />
+        <Stack.Screen name="Inventory" component={Inventorypage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
