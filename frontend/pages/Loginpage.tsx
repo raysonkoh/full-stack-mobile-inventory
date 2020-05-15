@@ -41,7 +41,7 @@ const Loginpage = ({navigation}) => {
                 if (res.data.err) {
                   Alert.alert(res.data.err);
                 } else {
-                  userLogin(username, 1); // dummy token value of 1
+                  userLogin(username, res.data.token);
                   navigation.push('Inventory');
                 }
               });

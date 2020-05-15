@@ -12,22 +12,29 @@ import ItemCard from '../components/ItemCard';
 import AddNewItempage from './AddNewItempage';
 import customAxios from '../helpers/customAxios';
 import {UserContext} from '../contexts/UserContext';
+import {Alert} from 'react-native';
 
 const Inventorypage = ({navigation}) => {
   const [items, setItems] = useState([]);
   const {user, userLogin} = useContext(UserContext);
-  console.log(user);
-  /*
-  useEffect(() => {
-    customAxios.get('/inventory').then((res) => {
-      setItems(res.data);
-    });
-  }, []);
-  */
 
-  return (
+  useEffect(() => {
+    customAxios
+      .get(`/inventory/${user.token}`)
+      .then((res) => {
+        setItems(res.data.inventory);
+      })
+      .catch((err) => {
+        Alert.alert('An error has occured!');
+      });
+  }, []);
+
+  return user.token === null ? (
+    navigation.navigate('Login')
+  ) : (
     <Container>
       <Content padder>
+        <Text>Welcome {user.username}!</Text>
         {items.map((item) => (
           <ItemCard item={item} />
         ))}
