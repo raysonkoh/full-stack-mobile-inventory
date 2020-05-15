@@ -8,7 +8,7 @@ import {Alert} from 'react-native';
 
 const Inventorypage = ({navigation}) => {
   const [items, setItems] = useState([]);
-  const {user, userLogin} = useContext(UserContext);
+  const {user} = useContext(UserContext);
 
   const refresh = () =>
     customAxios
