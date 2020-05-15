@@ -58,4 +58,32 @@ inventoryRoutes.post("/add", (req, res) => {
   });
 });
 
+inventoryRoutes.post("/delete", (req, res) => {
+  const { token, itemId } = req.body;
+  jwt.verify(token, secret, (err, decoded) => {
+    if (err) {
+      res.json({
+        err,
+      });
+    } else {
+      User.findById(decoded.user.id)
+        .then((user) => {
+          user.inventory = user.inventory.filter((item) => item.id != itemId);
+          user.save().then((usr) =>
+            res.json({
+              msg: "Successfully added new item!",
+              usr,
+            })
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+          res.json({
+            err,
+          });
+        });
+    }
+  });
+});
+
 module.exports = inventoryRoutes;

@@ -1,16 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {
-  Container,
-  Content,
-  Text,
-  Card,
-  CardItem,
-  Body,
-  Button,
-} from 'native-base';
+import {Container, Content, Text, Button} from 'native-base';
 import ItemCard from '../components/ItemCard';
-import AddNewItempage from './AddNewItempage';
 import customAxios from '../helpers/customAxios';
 import {UserContext} from '../contexts/UserContext';
 import {Alert} from 'react-native';
@@ -19,18 +10,19 @@ const Inventorypage = ({navigation}) => {
   const [items, setItems] = useState([]);
   const {user, userLogin} = useContext(UserContext);
 
+  const refresh = () =>
+    customAxios
+      .get(`/inventory/${user.token}`)
+      .then((res) => {
+        setItems(res.data.inventory);
+      })
+      .catch((err) => {
+        Alert.alert('An error has occured!');
+      });
+
   useFocusEffect(
     React.useCallback(() => {
-      console.log('call');
-      customAxios
-        .get(`/inventory/${user.token}`)
-        .then((res) => {
-          console.log(res.data);
-          setItems(res.data.inventory);
-        })
-        .catch((err) => {
-          Alert.alert('An error has occured!');
-        });
+      refresh();
     }, []),
   );
 
@@ -41,7 +33,7 @@ const Inventorypage = ({navigation}) => {
       <Content padder>
         <Text>Welcome {user.username}!</Text>
         {items.map((item) => (
-          <ItemCard item={item} />
+          <ItemCard refresh={refresh} item={item} />
         ))}
         <Button
           style={{margin: 5}}

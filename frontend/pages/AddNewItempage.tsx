@@ -6,7 +6,7 @@ import {UserContext} from '../contexts/UserContext';
 
 const AddNewItempage = ({navigation}) => {
   const [itemName, setItemName] = useState('');
-  const [itemQty, setItemQty] = useState(0);
+  const [itemQty, setItemQty] = useState('0');
   const {user} = useContext(UserContext);
 
   return (
@@ -39,7 +39,6 @@ const AddNewItempage = ({navigation}) => {
                   },
                 })
                 .then((res) => {
-                  console.log(res);
                   navigation.goBack();
                 })
                 .catch((err) => Alert.alert('An error has occured!'));

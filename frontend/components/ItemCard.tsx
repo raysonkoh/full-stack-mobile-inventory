@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Card, CardItem, Body, Text, Button} from 'native-base';
+import {UserContext} from '../contexts/UserContext';
+import customAxios from '../helpers/customAxios';
+import {Alert} from 'react-native';
 
-const ItemCard = (props) => {
-  const item = props.item;
-  const {itemName, itemQty} = item;
+const ItemCard = ({item, refresh}) => {
+  const {id, itemName, itemQty} = item;
+  const {user} = useContext(UserContext);
 
   return (
     <Card>
@@ -12,11 +15,31 @@ const ItemCard = (props) => {
       </CardItem>
       <CardItem>
         <Body>
-          <Text>id: none for now</Text>
+          <Text>id: {id}</Text>
           <Text>qty: {itemQty}</Text>
         </Body>
-        <Button>
-          <Text>button</Text>
+        <Button
+          onPress={() => {
+            customAxios
+              .post('/inventory/delete', {
+                token: user.token,
+                itemId: id,
+              })
+              .then((res) => {
+                if (res.err) {
+                  console.log(err);
+                  Alert.alert('An error occurred!');
+                } else {
+                  refresh();
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+                Alert.alert('An error occurred!');
+              });
+          }}
+          danger>
+          <Text>Delete</Text>
         </Button>
       </CardItem>
     </Card>
