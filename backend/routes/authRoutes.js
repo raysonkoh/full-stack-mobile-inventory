@@ -33,19 +33,28 @@ authRoutes.post("/login", (req, res) => {
   User.findOne({ username })
     .then((user) => {
       if (user.password === password) {
-        jwt.sign({ user }, secret, (err, token) => {
-          if (err) {
-            console.log(err);
-            res.json({
-              err,
-            });
-          } else {
-            res.json({
-              msg: "Login success",
-              token,
-            });
+        jwt.sign(
+          {
+            user: {
+              id: user._id,
+              username: user.username,
+            },
+          },
+          secret,
+          (err, token) => {
+            if (err) {
+              console.log(err);
+              res.json({
+                err,
+              });
+            } else {
+              res.json({
+                msg: "Login success",
+                token,
+              });
+            }
           }
-        });
+        );
       } else {
         res.json({
           err: "Login error",

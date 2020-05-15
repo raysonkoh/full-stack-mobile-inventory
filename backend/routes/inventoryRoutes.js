@@ -1,5 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const uniqid = require("uniqid");
 const secret = require("../configs").secret;
 const inventoryRoutes = express.Router();
 const User = require("../models/User");
@@ -12,7 +13,7 @@ inventoryRoutes.get("/:token", (req, res) => {
         err,
       });
     } else {
-      User.findById(decoded.user._id)
+      User.findById(decoded.user.id)
         .then((user) => {
           res.json({
             inventory: user.inventory,
@@ -37,10 +38,9 @@ inventoryRoutes.post("/add", (req, res) => {
         err,
       });
     } else {
-      User.findById(decoded.user._id)
+      User.findById(decoded.user.id)
         .then((user) => {
-          console.log(user);
-          user.inventory.push(item);
+          user.inventory.push({ ...item, id: uniqid.time() });
           user.save().then((usr) =>
             res.json({
               msg: "Successfully added new item!",
