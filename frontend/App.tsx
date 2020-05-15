@@ -10,6 +10,7 @@
 
 import 'react-native-gesture-handler';
 import React from 'react';
+import {UserContextProvider} from './contexts/UserContext';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Root} from 'native-base';
@@ -23,14 +24,16 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <Root>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Login" component={Loginpage} />
-          <Stack.Screen name="Register" component={Registerpage} />
-          <Stack.Screen name="Inventory" component={Inventorypage} />
-          <Stack.Screen name="Add New Item" component={AddNewItempage} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <UserContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={Loginpage} />
+            <Stack.Screen name="Register" component={Registerpage} />
+            <Stack.Screen name="Inventory" component={Inventorypage} />
+            <Stack.Screen name="Add New Item" component={AddNewItempage} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserContextProvider>
     </Root>
   );
 };

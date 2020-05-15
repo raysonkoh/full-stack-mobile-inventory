@@ -1,7 +1,8 @@
 import React from 'react';
-import {Card, CardItem, Body, Text, Button, Container} from 'native-base';
+import {Card, CardItem, Body, Text, Button} from 'native-base';
 
-const ItemCard = ({id, name, qty}) => {
+const ItemCard = (item) => {
+  const {name, id, qty} = item;
   return (
     <Card>
       <CardItem header>

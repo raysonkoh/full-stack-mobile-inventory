@@ -1,21 +1,13 @@
-import React, {useState} from 'react';
-import {
-  Container,
-  Button,
-  Header,
-  Title,
-  Form,
-  Item,
-  Input,
-  Content,
-  Text,
-} from 'native-base';
+import React, {useState, useContext} from 'react';
+import {Container, Button, Form, Item, Input, Content, Text} from 'native-base';
 import {Alert} from 'react-native';
 import customAxios from '../helpers/customAxios';
+import {UserContext} from '../contexts/UserContext';
 
-const Homepage = ({navigation}) => {
+const Loginpage = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const {user, userLogin} = useContext(UserContext);
 
   return (
     <Container>
@@ -49,6 +41,7 @@ const Homepage = ({navigation}) => {
                 if (res.data.err) {
                   Alert.alert(res.data.err);
                 } else {
+                  userLogin(username, 1); // dummy token value of 1
                   navigation.push('Inventory');
                 }
               });
@@ -66,4 +59,4 @@ const Homepage = ({navigation}) => {
   );
 };
 
-export default Homepage;
+export default Loginpage;
