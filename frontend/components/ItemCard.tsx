@@ -1,17 +1,19 @@
 import React from 'react';
 import {Card, CardItem, Body, Text, Button} from 'native-base';
 
-const ItemCard = (item) => {
-  const {name, id, qty} = item;
+const ItemCard = (props) => {
+  const item = props.item;
+  const {itemName, itemQty} = item;
+
   return (
     <Card>
       <CardItem header>
-        <Text>{name}</Text>
+        <Text>{itemName}</Text>
       </CardItem>
       <CardItem>
         <Body>
-          <Text>id: {id}</Text>
-          <Text>qty: {qty}</Text>
+          <Text>id: none for now</Text>
+          <Text>qty: {itemQty}</Text>
         </Body>
         <Button>
           <Text>button</Text>

@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {
   Container,
   Content,
@@ -18,16 +19,20 @@ const Inventorypage = ({navigation}) => {
   const [items, setItems] = useState([]);
   const {user, userLogin} = useContext(UserContext);
 
-  useEffect(() => {
-    customAxios
-      .get(`/inventory/${user.token}`)
-      .then((res) => {
-        setItems(res.data.inventory);
-      })
-      .catch((err) => {
-        Alert.alert('An error has occured!');
-      });
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('call');
+      customAxios
+        .get(`/inventory/${user.token}`)
+        .then((res) => {
+          console.log(res.data);
+          setItems(res.data.inventory);
+        })
+        .catch((err) => {
+          Alert.alert('An error has occured!');
+        });
+    }, []),
+  );
 
   return user.token === null ? (
     navigation.navigate('Login')
@@ -40,7 +45,7 @@ const Inventorypage = ({navigation}) => {
         ))}
         <Button
           style={{margin: 5}}
-          onPress={() => navigation.push('Add New Item')}>
+          onPress={() => navigation.navigate('Add New Item')}>
           <Text>Add New Item</Text>
         </Button>
       </Content>
